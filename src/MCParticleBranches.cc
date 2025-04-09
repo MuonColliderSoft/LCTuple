@@ -7,6 +7,7 @@
 
 #include "TTree.h"
 
+#include <sstream>
 
 void MCParticleBranches::initBranches( TTree* tree, const std::string& pre){
 
@@ -66,6 +67,11 @@ void MCParticleBranches::fill(const EVENT::LCCollection* col, EVENT::LCEvent* ev
   if (_writeparameters) CollectionBranches::fill(col, evt);
 
   _nmc  = col->getNumberOfElements() ;
+  if(_nmc > LCT_MCPARTICLE_MAX) {
+    std::stringstream exStr;
+    exStr << "Error: NMC > LCT_MCPARTICLE_MAX! (" << _nmc << ")";
+    throw EVENT::Exception( exStr.str() );
+  }
   
   for(int i=0 ; i < _nmc ; ++i){
     
