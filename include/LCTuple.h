@@ -8,7 +8,9 @@
 #include "MCParticleFromRelationBranches.h"
 
 #include "JetBranches.h"
+#include "TrackBranches.h"
 #include "PIDBranches.h"
+#include "RecoParticleBranches.h"
 
 
 using namespace lcio ;
@@ -104,6 +106,8 @@ class LCTuple : public Processor {
   bool _jetColWriteParameters {};
   bool _isolepColWriteParameters {}; 
   bool _trkColWriteParameters {};
+  bool _trkColStatesParameters {};               /* Enables writing extra trk states parameters */
+  bool _trkColHitsParameters {};                 /* Enables writing extra trk hits parameters */
   bool _cluColWriteParameters {};
   bool _sthColWriteParameters {};
   bool _trhColWriteParameters {};
@@ -126,11 +130,11 @@ class LCTuple : public Processor {
   CWBranchesSet* _evtBranches {};
   CollectionBranches* _mcpBranches {};
   CollectionBranches* _mcpremoveoverlayBranches {};
-  CollectionBranches* _recBranches {};
+  RecoParticleBranches* _recBranches {};
 //  CollectionBranches* _jetBranches {};
   JetBranches* _jetBranches {};
   CollectionBranches* _isolepBranches {};
-  CollectionBranches* _trkBranches {};
+  TrackBranches* _trkBranches {};
   CollectionBranches* _cluBranches {};
   CollectionBranches* _sthBranches {};
   CollectionBranches* _trhBranches {};

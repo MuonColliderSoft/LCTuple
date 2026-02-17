@@ -184,6 +184,18 @@ registerProcessorParameter( "WriteIsoLepCollectionParameters" ,
 			      false
 			      );
 
+  registerProcessorParameter( "TrackCollectionStatesParameters" ,
+                              "Switch to write out states parameters for tracks",
+            _trkColStatesParameters ,
+            false
+            );
+
+  registerProcessorParameter( "TrackCollectionHitsParameters" ,
+                              "Switch to write out hits parameters for tracks",
+            _trkColHitsParameters ,
+            false
+            );
+
   registerInputCollection( LCIO::CLUSTER,
 			   "ClusterCollection" , 
 			   "Name of the Cluster collection"  ,
@@ -387,6 +399,8 @@ void LCTuple::init() {
   if( _trkColName.size() ) {
     _trkBranches =  new TrackBranches ;
     _trkBranches->writeParameters(_trkColWriteParameters);
+    _trkBranches->writeTrkStatesParameters(_trkColStatesParameters); /* pass the value to TrackBranches */
+    _trkBranches->writeTrkHitsParameters(_trkColHitsParameters); /* pass the value to TrackBranches */
     _trkBranches->initBranches( _tree ) ;
   }
   
@@ -551,7 +565,7 @@ void LCTuple::processEvent( LCEvent * evt ) {
   if( mcpRemoveOverlayCol ) _mcpremoveoverlayBranches->fill( mcpRemoveOverlayCol , evt ) ;
 
   if( recCol ) {
-    _recBranches->fill( recCol , evt ) ;
+    _recBranches->fill( recCol , evt, trkCol , cluCol ) ;
 
     for( auto pidb : _pidBranchesVec ) pidb->fill( recCol , evt ) ;
   }
